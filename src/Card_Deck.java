@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class Card_Deck {
 
@@ -13,7 +12,6 @@ public class Card_Deck {
 		deck = new ArrayList<>();
 		
 		createDeck();
-		shuffle();
 	}
 	
 	public void createDeck() {
@@ -51,10 +49,6 @@ public class Card_Deck {
 				deck.add(card);
 			}
 		}	
-	}
-	
-	public void shuffle() {
-		Collections.shuffle(deck);
 	}
 	
 	public ArrayList<UNO_Card> getDeck(){
