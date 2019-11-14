@@ -20,5 +20,8 @@ public class Player {
 		return hand;
 	}
 	
-
+	public void drawCard(ArrayList<UNO_Card> remainingDeck) {
+		hand.add(remainingDeck.get(0));
+		remainingDeck.remove(0);
+	}
 }
