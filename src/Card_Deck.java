@@ -27,36 +27,29 @@ public class Card_Deck {
 		//add remaining numbers twice
 		for(int i = 1; i < 10; i++) {
 			for(String color: NUMBER_CARD_COLORS) {
-				UNO_Card card = new Number_Card(color, i);
-				UNO_Card card2 = new Number_Card(color, i);		
-				
-				deck.add(card);
-				deck.add(card2);
+				for(int j = 0; j < 2; j++) {
+					UNO_Card card = new Number_Card(color, i);
+					deck.add(card);
+				}
 			}
 		}
 		
 		//add action cards
 		for(String action: ACTIONS) {
 			for(String color: NUMBER_CARD_COLORS) {
-				UNO_Card card = new Action_Card(color, action);
-				UNO_Card card2 = new Action_Card(color, action);
-				
-				deck.add(card);
-				deck.add(card2);
+				for(int i = 0; i < 2; i++) {
+					UNO_Card card = new Action_Card(color, action);
+					deck.add(card);
+				}
 			}
 		}
 		
 		//add wild cards
 		for(String action: WILD_ACTIONS) {
-			UNO_Card card = new Wild_Card(action);
-			UNO_Card card2 = new Wild_Card(action);
-			UNO_Card card3 = new Wild_Card(action);
-			UNO_Card card4 = new Wild_Card(action);
-			
-			deck.add(card);
-			deck.add(card2);
-			deck.add(card3);
-			deck.add(card4);
+			for(int i = 0; i < 4; i++) {
+				UNO_Card card = new Wild_Card(action);
+				deck.add(card);
+			}
 		}	
 	}
 	
