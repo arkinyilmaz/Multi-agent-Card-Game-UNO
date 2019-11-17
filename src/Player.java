@@ -5,11 +5,13 @@ public class Player {
 	private String name = null;
 	private Boolean turn;
 	private ArrayList<UNO_Card> hand;
+	private Boolean isBot;
 	
-	public Player(String name) {
+	public Player(String name, Boolean isBot) {
 		this.name = name;
 		this.turn = false;
 		this.hand = new ArrayList<UNO_Card>();
+		this.isBot = isBot;
 	}
 	
 	public String getName() {

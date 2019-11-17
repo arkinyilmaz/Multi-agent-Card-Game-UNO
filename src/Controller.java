@@ -19,10 +19,10 @@ public class Controller {
 	Player p1, p2, p3, p4;
 	
 	public Controller() {
-		p1 = new Player("Arko");
-		p2 = new Player("Zey");
-		p3 = new Player("Akkorus");
-		p4 = new Player("Ali");
+		p1 = new Player("Arko", false);
+		p2 = new Player("Zey", true);
+		p3 = new Player("Akkorus", true);
+		p4 = new Player("Ali", true);
 		
 		Player[] players = { p1, p2, p3, p4};
 		
@@ -86,6 +86,7 @@ public class Controller {
 			card_slot_hbox.setSpacing(5);
 			card_slot_hbox.setAlignment(Pos.BASELINE_CENTER);
 			card_slot_hbox.getChildren().add(card);
+			
 		}
 	}
 }
