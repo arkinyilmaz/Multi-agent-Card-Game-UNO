@@ -7,7 +7,6 @@ public class Dealer {
 	
 	public Dealer() {
 		deck = new Card_Deck();
-		//shuffleDeck();
 	}
 	
 	public void shuffleDeck() {

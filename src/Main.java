@@ -1,31 +1,33 @@
 import java.util.ArrayList;
 
-public class Main {
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
+
+
+public class Main extends Application{
 	
 	public static void main(String[] args) {
+		
+		launch(args);
 				
-		Player p1 = new Player("Arko");
-		Player p2 = new Player("Zey");
-		Player p3 = new Player("Akkorus");
-		
-		Player[] players = { p1, p2, p3};
-		
-		Game_Engine game = new Game_Engine(players);
-		game.start();
-		
-		//print players' hands
-		for(int i = 0 ; i < players.length; i++) {
-			printPlayerHand(players[i]);
-		}
 	}
 	
-	public static void printPlayerHand(Player p) {
-		System.out.println("\nPLAYER: " + p.getName());
-		ArrayList<UNO_Card> p_hand = p.getHand();
-		for(int i = 0; i < p_hand.size(); i++) {
-			System.out.println("Card Color: " + p_hand.get(i).getColor() + " | Card Value: " + p_hand.get(i).getValue() 
-								+ " | Card Type: " + p_hand.get(i).getType() + "| Card Action: " + p_hand.get(i).getAction());
-		}
+	@Override
+	public void start(Stage primaryStage) throws Exception {
+		// TODO Auto-generated method stub
+		
+		Parent root = FXMLLoader.load(getClass().getResource("uno_game.fxml"));
+		primaryStage.setTitle("xXxUNOMASTERSxXx");
+		primaryStage.setScene(new Scene(root));
+		primaryStage.show();
+
+		
+		
 	}
 
 }
