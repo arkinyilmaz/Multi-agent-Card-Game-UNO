@@ -4,6 +4,7 @@ import java.util.Collections;
 public class Dealer {
 	
 	Card_Deck deck;
+	private final int HAND_SIZE = 7;
 	
 	public Dealer() {
 		deck = new Card_Deck();
@@ -17,7 +18,7 @@ public class Dealer {
 		
 		int numOfPlayer = players.length;
 		
-		for(int i = 0; i < 7; i++) {
+		for(int i = 0; i < HAND_SIZE; i++) {
 			for(int j = 0; j < numOfPlayer; j++) {
 				players[j].getHand().add(deck.getDeck().get(0));
 				deck.getDeck().remove(0);

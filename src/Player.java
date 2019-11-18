@@ -22,8 +22,34 @@ public class Player {
 		return isBot;
 	}
 	
+	public Boolean isTurn() {
+		return turn;
+	}
+	
+	public void setTurn(Boolean b) {
+		turn = b;
+	}
+	
 	public ArrayList<UNO_Card> getHand() {
 		return hand;
+	}
+	
+	public int[] getColorsInHand(){
+		
+		int[] colors_in_hand = {0,0,0,0};
+		
+		for(int i = 0; i < hand.size(); i++) {
+			if(hand.get(i).getColor().equals("RED"))
+				colors_in_hand[0]++;
+			else if (hand.get(i).getColor().equals("YELLOW"))
+				colors_in_hand[1]++;
+			else if (hand.get(i).getColor().equals("GREEN"))
+				colors_in_hand[2]++;
+			else 
+				colors_in_hand[3]++;
+		}
+		
+		return colors_in_hand;
 	}
 	
 	public int getHandPoints() {
@@ -37,54 +63,5 @@ public class Player {
 	public void drawCard(ArrayList<UNO_Card> remainingDeck) {
 		hand.add(remainingDeck.get(0));
 		remainingDeck.remove(0);
-	}
-	
-	public void playCard(UNO_Card lastPlayedCard) {
-		
-		//card in the middle
-		String lastPlayedCardColor = lastPlayedCard.getColor();
-		int lastPlayedCardValue = lastPlayedCard.getValue();
-		
-		//store the number of possible next moves for each card
-		int[] possibleNextMoves = new int[hand.size()];
-		
-		//store the number of remaining hand points
-		int[] remainingHandPoints = new int[hand.size()];
-		
-		//add next players hand situation
-		
-		for(int i = 0; i < hand.size(); i++) {
-			
-			UNO_Card card = hand.get(i);
-			
-			if(card.getColor().equals("BLACK"))
-				possibleNextMoves[i] = 1;
-			else if(!card.getColor().equals(lastPlayedCardColor) && card.getValue() != lastPlayedCardValue) {
-				possibleNextMoves[i] = 0;
-			}
-			else{
-				int amount = 0;
-				for(int j = 0; j < hand.size(); j++) {
-					if(hand.get(j).getColor().equals(card.getColor())) {
-						amount++;
-					}
-				}
-				
-				possibleNextMoves[i] = amount;
-			}
-			
-			remainingHandPoints[i] = getHandPoints() - card.getPoint();
-		}
-		
-		String nm = "";
-		String hp = ""
-				; 
-		for(int i = 0; i < hand.size(); i++) {
-			nm = nm + possibleNextMoves[i] + " | ";
-			hp = hp + remainingHandPoints[i] + " | ";
-		}
-		
-		System.out.println("Possible Next Moves: " + nm);
-		System.out.println("Remaining Hand Points: " + hp);		
 	}
 }

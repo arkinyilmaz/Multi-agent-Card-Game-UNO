@@ -42,4 +42,8 @@ public class UNO_Card {
 	public void setPoint(int point) {
 		this.point = point;
 	}
+	
+	public void setColor(String color) {
+		this.color = color;
+	}
 }

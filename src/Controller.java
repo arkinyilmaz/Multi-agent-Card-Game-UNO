@@ -107,5 +107,7 @@ public class Controller{
 		Image image = new Image(input);
 		mid_card.setImage(image);
 		
+
+		
 	}
 }
