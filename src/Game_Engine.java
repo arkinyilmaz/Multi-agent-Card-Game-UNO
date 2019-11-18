@@ -60,10 +60,10 @@ public class Game_Engine {
 		//choose the starting player
 		players[gameTurn].setTurn(true);
 		
-		while(!isGameEnded()) {
+		/*while(!isGameEnded()) {
 			playCard(players[gameTurn]);
 			gameTurn = (gameTurn + gameDirection + 4) % players.length;
-		}
+		}*/
 		
 		//playCard(players[0]);
 		System.out.println("\nStarting Card: " + playedCards.peek().getColor() + "\n" + playedCards.peek().getValue() + "\n" + playedCards.peek().getAction());
@@ -82,6 +82,18 @@ public class Game_Engine {
 		}
 		
 		return false;
+	}
+	
+	public int getGameTurn() {
+		return gameTurn;
+	}
+	
+	public int getGameDirection() {
+		return gameDirection;
+	}
+	
+	public void setGameTurn(int gameTurn) {
+		this.gameTurn = gameTurn;
 	}
 	
 	//perform action -- skip player
@@ -210,6 +222,7 @@ public class Game_Engine {
 			hp = hp + remainingHandPoints[i] + " | ";
 		}
 		
+		System.out.println("Player: " + p.getName());
 		System.out.println("Possible Next Moves: " + nm);
 		System.out.println("Remaining Hand Points: " + hp);	
 		
@@ -253,6 +266,8 @@ public class Game_Engine {
 		}
 		
 		System.out.println(getPlayedCard().getAction());
+		
+		//perform action
 		if(getPlayedCard().getAction().equals("REVERSE")) {
 			reverseGameDirection();
 		}

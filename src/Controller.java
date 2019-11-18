@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -23,6 +24,7 @@ public class Controller{
 	
 	public int i = 0;
 	Player p1, p2, p3, p4;
+	Player[] players;
 	Game_Engine game;
 	
 	public Controller() {
@@ -31,7 +33,11 @@ public class Controller{
 		p3 = new Player("Akkorus", true);
 		p4 = new Player("Ali", true);
 		
-		Player[] players = { p1, p2, p3, p4};
+		players = new Player[4];
+		players[0] = p1;
+		players[1] = p2;
+		players[2] = p3;
+		players[3] = p4;
 				
 		game = new Game_Engine(players);
 		game.start();	
@@ -85,29 +91,54 @@ public class Controller{
 
 	@FXML
 	public void initialize() throws FileNotFoundException {
-		// TODO Auto-generated method stub
-		UNO_Card c = game.getPlayedCard();
-		int card_type = c.getType();
-		String card_color = c.getColor();
-		int card_value = c.getValue();
-		String action = c.getAction();
-		String fileName = "";
+		//Two threads are used to update view, but look for it 
+		new Thread(() -> {
+			while(!game.isGameEnded()) {
+				
+				try {
+					Thread.sleep(250);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				int turn = game.getGameTurn();
+				int direction = game.getGameDirection();
+				
+				game.playCard(players[turn]);		
+				game.setGameTurn((turn + direction + 4) % players.length);
+				
+				Platform.runLater(() -> {
+					UNO_Card c = game.getPlayedCard();
+					int card_type = c.getType();
+					String card_color = c.getColor();
+					int card_value = c.getValue();
+					String action = c.getAction();
+					String fileName = "";
+					
+					if(card_type == 1) {
+						fileName = "images/" + card_color.toLowerCase() + "_" + card_value + ".png";
+					}
+					else if(card_type == 2){
+						fileName = "images/" + card_color.toLowerCase() + "_" + action.toLowerCase(Locale.ENGLISH) + ".png";
+					}
+					else {
+						fileName = "images/black_" + action.toLowerCase(Locale.ENGLISH) + ".png";
+					}
+					
+					FileInputStream input = null;
+					try {
+						input = new FileInputStream(fileName);
+					} catch (FileNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 		
-		if(card_type == 1) {
-			fileName = "images/" + card_color.toLowerCase() + "_" + card_value + ".png";
-		}
-		else {
-			fileName = "images/" + card_color.toLowerCase() + "_" + action.toLowerCase(Locale.ENGLISH) + ".png";
-		}
-		
-		//System.out.println(fileName);
-		
-		FileInputStream input = new FileInputStream(fileName);
-
-		Image image = new Image(input);
-		mid_card.setImage(image);
-		
-
-		
+					Image image = new Image(input);
+					mid_card.setImage(image);
+					
+				});	
+			}
+		}).start();
 	}
 }
