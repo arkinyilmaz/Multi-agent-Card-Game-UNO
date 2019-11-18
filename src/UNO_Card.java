@@ -10,6 +10,7 @@ public class UNO_Card {
 	private int value = 0;
 	private int type = 0;
 	private String action = null;
+	private int point = 0;
 	
 	public UNO_Card(String color, int value, int type, String action) {
 		this.color = color;
@@ -32,5 +33,13 @@ public class UNO_Card {
 	
 	public String getAction() {
 		return action;
+	}
+	
+	public int getPoint() {
+		return point;
+	}
+	
+	public void setPoint(int point) {
+		this.point = point;
 	}
 }

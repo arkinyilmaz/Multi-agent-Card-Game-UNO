@@ -8,6 +8,9 @@ public class Card_Deck {
 	private final String[] WILD_ACTIONS = {"COLOR_PICKER", "DRAW_4"};
 	private final String[] ACTIONS = {"REVERSE", "SKIP", "DRAW_2"};
 	
+	private final int WILD_CARD_POINTS = 50;
+	private final int ACTION_CARD_POINTS = 20;
+	
 	public Card_Deck() {
 		deck = new ArrayList<>();
 		
@@ -19,6 +22,7 @@ public class Card_Deck {
 		//add 0's to deck
 		for(String color : NUMBER_CARD_COLORS) {
 			UNO_Card card = new Number_Card(color, 0);
+			card.setPoint(0);
 			deck.add(card);
 		}
 		
@@ -27,6 +31,7 @@ public class Card_Deck {
 			for(String color: NUMBER_CARD_COLORS) {
 				for(int j = 0; j < 2; j++) {
 					UNO_Card card = new Number_Card(color, i);
+					card.setPoint(i);
 					deck.add(card);
 				}
 			}
@@ -37,6 +42,7 @@ public class Card_Deck {
 			for(String color: NUMBER_CARD_COLORS) {
 				for(int i = 0; i < 2; i++) {
 					UNO_Card card = new Action_Card(color, action);
+					card.setPoint(ACTION_CARD_POINTS);
 					deck.add(card);
 				}
 			}
@@ -46,6 +52,7 @@ public class Card_Deck {
 		for(String action: WILD_ACTIONS) {
 			for(int i = 0; i < 4; i++) {
 				UNO_Card card = new Wild_Card(action);
+				card.setPoint(WILD_CARD_POINTS);
 				deck.add(card);
 			}
 		}	
