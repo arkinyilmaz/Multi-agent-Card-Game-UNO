@@ -30,11 +30,11 @@ public class Game_Engine {
 		System.out.println("Initial Deck Size is: " + remainingCards.size());
 		
 		//print each card
-		for(int i = 0; i < remainingCards.size(); i++) {
+		/*for(int i = 0; i < remainingCards.size(); i++) {
 			UNO_Card card = remainingCards.get(i);
 			System.out.println("Card Color: " + card.getColor() + " | Card Value: " + card.getValue() + " | Card Type: " + card.getType() + "| Card Action: " + card.getAction()
 			+ " | Card Point: " + card.getPoint());
-		}
+		}*/
 		
 		//spread cards to each player
 		dealer.spreadCards(players);
@@ -64,19 +64,13 @@ public class Game_Engine {
 			playCard(players[gameTurn]);
 			gameTurn = (gameTurn + gameDirection + 4) % players.length;
 		}*/
-		
-		//playCard(players[0]);
-		System.out.println("\nStarting Card: " + playedCards.peek().getColor() + "\n" + playedCards.peek().getValue() + "\n" + playedCards.peek().getAction());
-		System.out.println("\nNumber of remaining cards: " + remainingCards.size());
-		printPlayerHand(players[0]);
-
 	}
 	
 	//check if game is ended or not
 	public Boolean isGameEnded() {
 		for(int i = 0; i < players.length; i++) {
 			if(players[i].getHand().size() == 0) {
-				System.out.println(players[i].getName() + " wins!!!!!");
+				System.out.println("\n" + players[i].getName() + " wins!!!!!");
 				return true;
 			}
 		}
@@ -98,7 +92,7 @@ public class Game_Engine {
 	
 	//perform action -- skip player
 	public void skipPlayer() {
-		gameTurn = (gameTurn + gameDirection) % players.length;
+		gameTurn = (gameTurn + gameDirection + 4) % players.length;	
 	}
 	
 	//perform action -- reverseGameDirection
@@ -107,6 +101,8 @@ public class Game_Engine {
 			gameDirection = -1;
 		else
 			gameDirection = 1;
+		
+		gameTurn = (gameTurn + (2 * gameDirection) + 4) % players.length;	
 	}
 	
 	//perform action -- draw two cards
@@ -137,9 +133,10 @@ public class Game_Engine {
 		}
 		
 		getPlayedCard().setColor(colors[max_index]);
+		System.out.print("New color is: " + colors[max_index] + "\n");
 	}
 	
-	//perform wild action -- change color
+	//perform wild action -- change color - add if numbers are same, pick the color with bigger point sum
 	public void colorPicker() {
 		int[] colors_in_hand = players[gameTurn].getColorsInHand();
 		String[] colors = {"RED","YELLOW","GREEN","BLUE"};
@@ -154,6 +151,7 @@ public class Game_Engine {
 		}
 		
 		getPlayedCard().setColor(colors[max_index]);
+		System.out.print("New color is: " + colors[max_index] + "\n");
 	}
 	
 	public UNO_Card getPlayedCard() {
@@ -170,9 +168,9 @@ public class Game_Engine {
 	}
 	
 	public void playCard(Player p) {
-		
 		//card in the middle
 		String lastPlayedCardColor = getPlayedCard().getColor();
+		System.out.println("LAST PLAYED COLOR IS: " + lastPlayedCardColor);
 		int lastPlayedCardValue = getPlayedCard().getValue();
 		
 		//store the number of possible next moves for each card
@@ -222,7 +220,7 @@ public class Game_Engine {
 			hp = hp + remainingHandPoints[i] + " | ";
 		}
 		
-		System.out.println("Player: " + p.getName());
+		System.out.println("\nTurn: " + p.getName());
 		System.out.println("Possible Next Moves: " + nm);
 		System.out.println("Remaining Hand Points: " + hp);	
 		
@@ -250,12 +248,22 @@ public class Game_Engine {
 		 *if there is only 1 possible card -> play it 
 		 *if there is more than 1 card -> play the card with biggest point
 		 */
+		String text = "";
+		Boolean isPlayed = false;
 		if(max_nm_locations.size() == 0) {
 			p.drawCard(remainingCards);
+			text = "Played: " + p.getName() + " has no possible moves. Draw card." ;
 		}
 		else if(max_nm_locations.size() == 1) {
 			int loc = max_nm_locations.get(0);
 			playedCards.push(p.getHand().remove(loc));
+			isPlayed = true;
+			
+			if(getPlayedCard().getType() == 1)
+				text = "Played: " + getPlayedCard().getColor()  + "_" + getPlayedCard().getValue();
+			else {
+				text = "Played: " + getPlayedCard().getColor()  + "_" + getPlayedCard().getAction();
+			}
 		}
 		else {
 			int min_point = Collections.min(remaining_hp);
@@ -263,27 +271,37 @@ public class Game_Engine {
 			
 			int loc = max_nm_locations.get(min_point_index);
 			playedCards.push(p.getHand().remove(loc));
+			isPlayed = true;
+			
+
+			if(getPlayedCard().getType() == 1)
+				text = "Played: " + getPlayedCard().getColor()  + "_" + getPlayedCard().getValue();
+			else {
+				text = "Played: " + getPlayedCard().getColor()  + "_" + getPlayedCard().getAction();
+			}
 		}
 		
-		System.out.println(getPlayedCard().getAction());
+		System.out.println(text);
 		
-		//perform action
-		if(getPlayedCard().getAction().equals("REVERSE")) {
-			reverseGameDirection();
+		//perform last played cards action
+		if(isPlayed) {
+			if(getPlayedCard().getAction().equals("REVERSE")) {
+				reverseGameDirection();
+			}
+			else if(getPlayedCard().getAction().equals("SKIP")) {
+				skipPlayer();
+			}
+			else if(getPlayedCard().getAction().equals("DRAW_2")) {
+				drawTwo();
+			}
+			else if(getPlayedCard().getAction().equals("DRAW_4")) {
+				drawFour();
+			}
+			else if(getPlayedCard().getAction().equals("COLOR_PICKER")) {
+				colorPicker();
+			}
+			else {}
 		}
-		else if(getPlayedCard().getAction().equals("SKIP")) {
-			skipPlayer();
-		}
-		else if(getPlayedCard().getAction().equals("DRAW_2")) {
-			drawTwo();
-		}
-		else if(getPlayedCard().getAction().equals("DRAW_4")) {
-			drawFour();
-		}
-		else if(getPlayedCard().getAction().equals("COLOR_PICKER")) {
-			colorPicker();
-		}
-		else {}
 		
 		p.setTurn(false);
 	}

@@ -28,10 +28,10 @@ public class Controller{
 	Game_Engine game;
 	
 	public Controller() {
-		p1 = new Player("Arko", false);
-		p2 = new Player("Zey", true);
-		p3 = new Player("Akkorus", true);
-		p4 = new Player("Ali", true);
+		p1 = new Player("Player 1", false);
+		p2 = new Player("Player 2", true);
+		p3 = new Player("Player 3", true);
+		p4 = new Player("Player 4", true);
 		
 		players = new Player[4];
 		players[0] = p1;
@@ -57,19 +57,9 @@ public class Controller{
 			int card_value = c.getValue();
 			String action = c.getAction();
 			
-			if(card_type == 1) {
-				fileName = "images/" + card_color.toLowerCase() + "_" + card_value + ".png";
-			}
-			else {
-				fileName = "images/" + card_color.toLowerCase() + "_" + action.toLowerCase(Locale.ENGLISH) + ".png";
-			}
-			
-			//System.out.println("Filename is: " + fileName);
-			FileInputStream input = new FileInputStream(fileName);
-			Image image = new Image(input);
 			ImageView card = new ImageView();
 			card.setId("blue_" + i);
-			card.setImage(image);
+			card.setImage(c.getImage());
 			
 			//remove card from hand
 			card.setOnMouseClicked(new EventHandler<MouseEvent>(){
@@ -106,7 +96,7 @@ public class Controller{
 				int direction = game.getGameDirection();
 				
 				game.playCard(players[turn]);		
-				game.setGameTurn((turn + direction + 4) % players.length);
+				game.setGameTurn((game.getGameTurn() + direction + 4) % players.length);
 				
 				Platform.runLater(() -> {
 					UNO_Card c = game.getPlayedCard();
