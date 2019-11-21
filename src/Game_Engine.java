@@ -11,6 +11,7 @@ public class Game_Engine {
 	Stack<UNO_Card> playedCards;
 	int gameDirection;
 	int gameTurn;
+	int playedCardLocation = -1;
 	
 	//create game engine object
 	public Game_Engine(Player[] players) {
@@ -59,11 +60,6 @@ public class Game_Engine {
 		
 		//choose the starting player
 		players[gameTurn].setTurn(true);
-		
-		/*while(!isGameEnded()) {
-			playCard(players[gameTurn]);
-			gameTurn = (gameTurn + gameDirection + 4) % players.length;
-		}*/
 	}
 	
 	//check if game is ended or not
@@ -255,8 +251,8 @@ public class Game_Engine {
 			text = "Played: " + p.getName() + " has no possible moves. Draw card." ;
 		}
 		else if(max_nm_locations.size() == 1) {
-			int loc = max_nm_locations.get(0);
-			playedCards.push(p.getHand().remove(loc));
+			playedCardLocation = max_nm_locations.get(0);
+			playedCards.push(p.getHand().remove(playedCardLocation));
 			isPlayed = true;
 			
 			if(getPlayedCard().getType() == 1)
@@ -269,8 +265,8 @@ public class Game_Engine {
 			int min_point = Collections.min(remaining_hp);
 			int min_point_index = remaining_hp.indexOf(min_point);
 			
-			int loc = max_nm_locations.get(min_point_index);
-			playedCards.push(p.getHand().remove(loc));
+			playedCardLocation = max_nm_locations.get(min_point_index);
+			playedCards.push(p.getHand().remove(playedCardLocation));
 			isPlayed = true;
 			
 
