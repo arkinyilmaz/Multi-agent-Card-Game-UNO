@@ -74,7 +74,6 @@ public class Card_Deck {
 			for(String color: NUMBER_CARD_COLORS) {
 				for(int i = 0; i < 2; i++) {
 					UNO_Card card = new Action_Card(color, action, j);
-					j--;
 					card.setPoint(ACTION_CARD_POINTS);
 					filename = "images/" + color.toLowerCase() + "_" + action.toLowerCase(Locale.ENGLISH) + ".png"; 
 					try {
@@ -87,6 +86,7 @@ public class Card_Deck {
 					deck.add(card);
 				}
 			}
+			j--;
 		}
 		
 		//add wild cards
@@ -94,7 +94,6 @@ public class Card_Deck {
 		for(String action: WILD_ACTIONS) {
 			for(int i = 0; i < 4; i++) {
 				UNO_Card card = new Wild_Card(action, -15);
-				j--;
 				card.setPoint(WILD_CARD_POINTS);
 				filename = "images/black_" + action.toLowerCase(Locale.ENGLISH) + ".png"; 
 				try {
@@ -106,6 +105,7 @@ public class Card_Deck {
 				card.setImage(new Image(input));
 				deck.add(card);
 			}
+			j--;
 		}	
 	}
 	

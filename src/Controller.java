@@ -77,10 +77,9 @@ public class Controller{
 				
 				UNO_Card card = p_hand.get(j);
 				ImageView cardView = new ImageView();
+				cardView.setFitWidth(100);
+				cardView.setFitHeight(140);		
 				cardView.setImage(card.getImage());
-				//cardView.setFitWidth(100);
-				//cardView.setFitHeight(150);
-								
 				//remove card from hand
 				cardView.setOnMouseClicked(new EventHandler<MouseEvent>(){
 
@@ -115,22 +114,28 @@ public class Controller{
 				
 				//add cards starting from the middle
 				if(i % 2 == 0) {
-					((HBox) playerContainer.get(i)).setSpacing(-30); //5
+					((HBox) playerContainer.get(i)).setSpacing(-50); //-30
 					((HBox) playerContainer.get(i)).setAlignment(Pos.CENTER);
 					playerContainer.get(i).getChildren().add(cardView);
 				}
-				else {
-					((VBox) playerContainer.get(i)).setSpacing(-65); //-30
-					((VBox) playerContainer.get(i)).setAlignment(Pos.CENTER);
-
+				else if(i == 1){
+					((VBox) playerContainer.get(i)).setSpacing(-85); //-65
+					((VBox) playerContainer.get(i)).setAlignment(Pos.CENTER_LEFT);
 					cardView.setRotate(90);
 					playerContainer.get(i).getChildren().add(cardView);
 				}			
+				else {
+					((VBox) playerContainer.get(i)).setSpacing(-85); //-65
+					((VBox) playerContainer.get(i)).setAlignment(Pos.CENTER_RIGHT);
+					cardView.setRotate(90);
+					playerContainer.get(i).getChildren().add(cardView);
+				}
 			}
 		}
 		
 		UNO_Card playedCard = game.getPlayedCard();
 		mid_card.setImage(playedCard.getImage());
+		System.out.println(mid_card.getImage().getRequestedWidth());
 		centerImage();
 	}
 	
