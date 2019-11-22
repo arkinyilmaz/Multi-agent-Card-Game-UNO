@@ -74,6 +74,10 @@ public class Game_Engine {
 		return false;
 	}
 	
+	public Stack<UNO_Card> getPlayedCards(){
+		return playedCards;
+	}
+	
 	public int getGameTurn() {
 		return gameTurn;
 	}
@@ -93,6 +97,7 @@ public class Game_Engine {
 	//perform action -- skip player
 	public void skipPlayer() {
 		gameTurn = (gameTurn + gameDirection + 4) % players.length;	
+		//players[gameTurn].setTurn(true);
 	}
 	
 	//perform action -- reverseGameDirection

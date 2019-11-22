@@ -55,6 +55,7 @@ public class Controller{
 
 		game = new Game_Engine(players);
 		game.start();	
+		System.out.println("\nPlayer to start: " + game.getGameTurn());
 	}
 	
 	public void handleAddCardButtonClick() throws FileNotFoundException {
@@ -82,7 +83,7 @@ public class Controller{
 			ArrayList<UNO_Card> p_hand = players[i].getHand();
 
 			for(int j = 0; j < p_hand.size(); j++) {
-				
+				int index = j;
 				UNO_Card card = p_hand.get(j);
 				ImageView cardView = new ImageView();
 				cardView.setFitWidth(100);
@@ -90,14 +91,16 @@ public class Controller{
 				cardView.setImage(card.getImage());
 				
 				//remove card from hand
-				if(i == 0) {
+				if(game.getGameTurn() == 0) {
 					cardView.setOnMouseClicked(new EventHandler<MouseEvent>(){
 	
 			            @Override
 			            public void handle(MouseEvent event) {
 			            	cardView.setImage(null);
 			            	hbox_down.getChildren().remove(cardView);
-			            	System.out.println("Card Type: " + card.getType() + "\nCard Color: " + card.getColor() + "\nCard Value: " + card.getValue() + "\nCard Action: " + card.getAction());
+			            	playOnClick(index);
+			            	System.out.println("\nIndex: " + index + "\nCard Type: " + card.getType() + "\nCard Color: " + card.getColor() + "\nCard Value: " + card.getValue() + "\nCard Action: " + card.getAction());
+			            	updateView();
 			            }
 			        });
 				}
@@ -151,6 +154,7 @@ public class Controller{
 		centerImage();
 	}
 	
+	//play function for bots
 	public void play() {
 	
 		if(!game.isGameEnded()) {
@@ -159,6 +163,59 @@ public class Controller{
 			
 			game.playCard(players[turn]);		
 			game.setGameTurn((game.getGameTurn() + direction + 4) % players.length);
+			players[game.getGameTurn()].setTurn(true);
+
+			System.out.println("\nPlayer 1:" + players[0].isTurn() + "\nPlayer 2:" + players[1].isTurn() + "\nPlayer 3:" + players[2].isTurn() + "\nPlayer 4:" + players[3].isTurn());
+			
+		}	
+	}
+	
+	//play function for real player - add card check before playing
+	public void playOnClick(int index) {
+		if(!game.isGameEnded()) {
+			String text = "";
+			Boolean isPlayed = false;
+			int turn = game.getGameTurn();
+			int direction = game.getGameDirection();
+						
+			game.getPlayedCards().push(players[turn].getHand().remove(index));
+			isPlayed = true;
+			
+			if(game.getPlayedCard().getType() == 1)
+				text = "Played: " + game.getPlayedCard().getColor()  + "_" + game.getPlayedCard().getValue();
+			else {
+				text = "Played: " + game.getPlayedCard().getColor()  + "_" + game.getPlayedCard().getAction();
+			}
+			
+			System.out.println(text);
+			
+			//perform last played cards action
+			if(isPlayed) {
+				if(game.getPlayedCard().getAction().equals("REVERSE")) {
+					game.reverseGameDirection();
+				}
+				else if(game.getPlayedCard().getAction().equals("SKIP")) {
+					game.skipPlayer();
+				}
+				else if(game.getPlayedCard().getAction().equals("DRAW_2")) {
+					game.drawTwo();
+				}
+				else if(game.getPlayedCard().getAction().equals("DRAW_4")) {
+					game.drawFour();
+				}
+				else if(game.getPlayedCard().getAction().equals("COLOR_PICKER")) {
+					game.colorPicker();
+				}
+				else {}
+			}
+			
+			players[turn].setTurn(false);
+			
+			game.setGameTurn((game.getGameTurn() + direction + 4) % players.length);
+			players[game.getGameTurn()].setTurn(true);
+
+			System.out.println("\nPlayer 1:" + players[0].isTurn() + "\nPlayer 2:" + players[1].isTurn() + "\nPlayer 3:" + players[2].isTurn() + "\nPlayer 4:" + players[3].isTurn());
+			
 		}	
 	}
 	
