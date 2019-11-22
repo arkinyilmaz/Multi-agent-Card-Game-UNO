@@ -82,6 +82,10 @@ public class Game_Engine {
 		return gameDirection;
 	}
 	
+	public ArrayList<UNO_Card> getRemainingCards(){
+		return remainingCards;
+	}
+	
 	public void setGameTurn(int gameTurn) {
 		this.gameTurn = gameTurn;
 	}

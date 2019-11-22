@@ -15,6 +15,7 @@
    <center>
       <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
+            <VBox fx:id="vbox_deck" layoutX="136.0" layoutY="144.0" prefHeight="200.0" prefWidth="100.0" />
             <ImageView fx:id="mid_card" fitHeight="150.0" fitWidth="200.0" layoutX="371.0" layoutY="174.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
                <cursor>
                   <Cursor fx:constant="S_RESIZE" />

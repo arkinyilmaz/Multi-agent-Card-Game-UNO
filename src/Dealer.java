@@ -4,7 +4,7 @@ import java.util.Collections;
 public class Dealer {
 	
 	Card_Deck deck;
-	private final int HAND_SIZE = 2;
+	private final int HAND_SIZE = 7;
 	
 	public Dealer() {
 		deck = new Card_Deck();

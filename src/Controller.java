@@ -27,10 +27,12 @@ public class Controller{
 	public VBox vbox_left;
 	public VBox vbox_right;
 	public ArrayList<Pane> playerContainer;
+	public VBox vbox_deck;
 	
 	public Button add_card_button;
 	public ImageView mid_card;
 	public Boolean play = true;
+	public Image back_image;
 	
 	public int updatePlayerIndex = -1;
 	Player p1, p2, p3, p4;
@@ -67,7 +69,13 @@ public class Controller{
 		hbox_up.getChildren().clear();
 		vbox_left.getChildren().clear();
 		vbox_right.getChildren().clear();
-
+		
+		/*ArrayList<UNO_Card> remaining_deck = game.getRemainingCards();
+		for(int i = 0; i < remaining_deck.size(); i++) {
+			ImageView view = new ImageView(back_image);
+			vbox_deck.getChildren().add(view);
+		}
+		vbox_deck.setSpacing(-109.5);*/
 		
 		for(int i = 0; i < players.length; i++) {
 			updatePlayerIndex = i;
@@ -80,15 +88,19 @@ public class Controller{
 				cardView.setFitWidth(100);
 				cardView.setFitHeight(140);		
 				cardView.setImage(card.getImage());
+				
 				//remove card from hand
-				cardView.setOnMouseClicked(new EventHandler<MouseEvent>(){
-
-		            @Override
-		            public void handle(MouseEvent event) {
-		            	System.out.println("Card Type: " + card.getType() + "\nCard Color: " + card.getColor() + "\nCard Value: " + card.getValue() + "\nCard Action: " + card.getAction());
-		            	cardView.setImage(null);
-		            }
-		        });
+				if(i == 0) {
+					cardView.setOnMouseClicked(new EventHandler<MouseEvent>(){
+	
+			            @Override
+			            public void handle(MouseEvent event) {
+			            	cardView.setImage(null);
+			            	hbox_down.getChildren().remove(cardView);
+			            	System.out.println("Card Type: " + card.getType() + "\nCard Color: " + card.getColor() + "\nCard Value: " + card.getValue() + "\nCard Action: " + card.getAction());
+			            }
+			        });
+				}
 				
 				//animation - move selected card to up
 				for(Node child: hbox_down.getChildren()) {
@@ -119,13 +131,13 @@ public class Controller{
 					playerContainer.get(i).getChildren().add(cardView);
 				}
 				else if(i == 1){
-					((VBox) playerContainer.get(i)).setSpacing(-85); //-65
+					((VBox) playerContainer.get(i)).setSpacing(-90); //-65
 					((VBox) playerContainer.get(i)).setAlignment(Pos.CENTER_LEFT);
 					cardView.setRotate(90);
 					playerContainer.get(i).getChildren().add(cardView);
 				}			
 				else {
-					((VBox) playerContainer.get(i)).setSpacing(-85); //-65
+					((VBox) playerContainer.get(i)).setSpacing(-90); //-65
 					((VBox) playerContainer.get(i)).setAlignment(Pos.CENTER_RIGHT);
 					cardView.setRotate(90);
 					playerContainer.get(i).getChildren().add(cardView);
@@ -183,8 +195,21 @@ public class Controller{
 		playerContainer.add(vbox_right);
 		playerContainer.add(hbox_up);
 		playerContainer.add(vbox_left);
+		
+		/*String filename = "images/card_back.png";
+		FileInputStream input = null;
+		try {
+			input = new FileInputStream(filename);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		back_image = new Image(input);*/
 
 		updateView();
+		
+		
 		
 		/*new Thread(() -> {
 			while(!game.isGameEnded() && play) {
