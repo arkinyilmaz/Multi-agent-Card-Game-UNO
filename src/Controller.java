@@ -27,7 +27,7 @@ public class Controller{
 	public VBox vbox_left;
 	public VBox vbox_right;
 	public ArrayList<Pane> playerContainer;
-	public VBox vbox_deck;
+	public ImageView draw_card;
 	
 	public Button add_card_button;
 	public ImageView mid_card;
@@ -38,7 +38,7 @@ public class Controller{
 	Player p1, p2, p3, p4;
 	Player[] players;
 	Game_Engine game;
-	
+		
 	public Controller() {
 		p1 = new Player("Player 1", false);
 		p2 = new Player("Player 2", true);
@@ -91,9 +91,8 @@ public class Controller{
 				cardView.setImage(card.getImage());
 				
 				//remove card from hand
-				if(game.getGameTurn() == 0) {
+				if(game.getGameTurn() == 0) {					
 					cardView.setOnMouseClicked(new EventHandler<MouseEvent>(){
-	
 			            @Override
 			            public void handle(MouseEvent event) {
 			            	
@@ -105,6 +104,8 @@ public class Controller{
 			            	Boolean cond1 = (!middle_card.getColor().equals(card.getColor()) && middle_card.getValue() == card.getValue());
 			            	Boolean cond2 = (middle_card.getColor().equals(card.getColor()) && middle_card.getValue() != card.getValue());
 			            	Boolean cond3 = (!middle_card.getColor().equals(card.getColor()) && middle_card.getValue() != card.getValue() &&  card.getColor().equals("BLACK"));
+			            	Boolean cond4 = (middle_card.getColor().equals(card.getColor()) && middle_card.getValue() == card.getValue());
+
 			            	
 			            	if(cond1){
 			            		System.out.println("COND1 OK!!");
@@ -116,7 +117,7 @@ public class Controller{
 			            		System.out.println("COND3 OK!!");
 			            	}
 			            	
-			            	if(cond1 || cond2 || cond3) {
+			            	if(cond1 || cond2 || cond3 || cond4) {
 			            		cardView.setImage(null);
 				            	hbox_down.getChildren().remove(cardView);
 				            	playOnClick(index);
@@ -127,7 +128,7 @@ public class Controller{
 			            		System.out.println("YOU CANNOT PLAY THIS CARD !!");
 			            	}
 			            }
-			        });
+			        });				
 				}
 				
 				//animation - move selected card to up
@@ -173,16 +174,64 @@ public class Controller{
 			}
 		}
 		
+		Boolean[] check = new Boolean[players[0].getHand().size()];
+		Boolean check2 = true;
+		
+		//if there is no available card, draw card from deck
+		for(int k = 0; k < check.length; k++) {
+			UNO_Card c = players[0].getHand().get(k);
+        	UNO_Card middle_card = game.getPlayedCard();
+
+			Boolean cond1 = (!middle_card.getColor().equals(c.getColor()) && middle_card.getValue() == c.getValue());
+        	Boolean cond2 = (middle_card.getColor().equals(c.getColor()) && middle_card.getValue() != c.getValue());
+        	Boolean cond3 = (!middle_card.getColor().equals(c.getColor()) && middle_card.getValue() != c.getValue() &&  c.getColor().equals("BLACK"));
+        	Boolean cond4 = (middle_card.getColor().equals(c.getColor()) && middle_card.getValue() == c.getValue());
+        		
+			if(cond1 || cond2 || cond3 || cond4) 
+				check[k] = true;
+			else
+				check[k] = false;
+		}
+		
+		for(int k = 0; k < check.length; k++) {
+			if(check[k])
+				System.out.println(k + " is OKEY | ");
+		}
+		
+		for(int k = 0; k < check.length; k++) {
+			if(check[k]) {
+				check2 = false;
+				break;
+			}
+		}
+					
+		//check for all possible cards, create boolean array, if any dont add, otherwise add
+		if(check2) {
+			draw_card.setOnMouseClicked(new EventHandler<MouseEvent>(){
+	            @Override
+	            public void handle(MouseEvent event) {
+	            	players[0].drawCard(game.getRemainingCards());
+	            	players[game.getGameTurn()].setTurn(false);
+	    			
+	    			game.setGameTurn((game.getGameTurn() + game.getGameDirection() + 4) % players.length);
+	    			players[game.getGameTurn()].setTurn(true);
+
+	    			System.out.println("\nPlayer 1:" + players[0].isTurn() + "\nPlayer 2:" + players[1].isTurn() + "\nPlayer 3:" + players[2].isTurn() + "\nPlayer 4:" + players[3].isTurn());
+	            	updateView();
+	            }
+	        });		
+		}
+		
 		UNO_Card playedCard = game.getPlayedCard();
 		mid_card.setImage(playedCard.getImage());
 		System.out.println(mid_card.getImage().getRequestedWidth());
-		centerImage();
+		centerImage(mid_card);
 	}
 	
 	//play function for bots
 	public void play() {
 	
-		if(!game.isGameEnded()) {
+		if(!game.isGameEnded() && players[game.getGameTurn()].isBot()) {
 			int turn = game.getGameTurn();
 			int direction = game.getGameDirection();
 			
@@ -244,15 +293,15 @@ public class Controller{
 		}	
 	}
 	
-	public void centerImage() {
+	public void centerImage(ImageView view) {
 		Image image = game.getPlayedCard().getImage();
 		
         if (image != null) {
             double w = 0;
             double h = 0;
 
-            double ratioX = mid_card.getFitWidth() / image.getWidth();
-            double ratioY = mid_card.getFitHeight() / image.getHeight();
+            double ratioX = view.getFitWidth() / image.getWidth();
+            double ratioY = view.getFitHeight() / image.getHeight();
 
             double reducCoeff = 0;
             if(ratioX >= ratioY) {
@@ -264,8 +313,8 @@ public class Controller{
             w = image.getWidth() * reducCoeff;
             h = image.getHeight() * reducCoeff;
 
-            mid_card.setX((mid_card.getFitWidth() - w) / 2);
-            mid_card.setY((mid_card.getFitHeight() - h) / 2);
+            view.setX((view.getFitWidth() - w) / 2);
+            view.setY((view.getFitHeight() - h) / 2);
 
         }
     }
@@ -278,7 +327,7 @@ public class Controller{
 		playerContainer.add(hbox_up);
 		playerContainer.add(vbox_left);
 		
-		/*String filename = "images/card_back.png";
+		String filename = "images/card_back.png";
 		FileInputStream input = null;
 		try {
 			input = new FileInputStream(filename);
@@ -287,8 +336,10 @@ public class Controller{
 			e.printStackTrace();
 		}
 		
-		back_image = new Image(input);*/
-
+		back_image = new Image(input);
+		draw_card.setImage(back_image);
+		centerImage(draw_card);
+		
 		updateView();
 		
 		
