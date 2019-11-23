@@ -96,11 +96,36 @@ public class Controller{
 	
 			            @Override
 			            public void handle(MouseEvent event) {
-			            	cardView.setImage(null);
-			            	hbox_down.getChildren().remove(cardView);
-			            	playOnClick(index);
-			            	System.out.println("\nIndex: " + index + "\nCard Type: " + card.getType() + "\nCard Color: " + card.getColor() + "\nCard Value: " + card.getValue() + "\nCard Action: " + card.getAction());
-			            	updateView();
+			            	
+			            	UNO_Card middle_card = game.getPlayedCard();
+			            	System.out.println("\nCard Type: " + middle_card.getType() + "\nCard Color: " + middle_card.getColor());
+
+			            	ArrayList<UNO_Card> rp_hand = players[0].getHand();
+			            	
+			            	Boolean cond1 = (!middle_card.getColor().equals(card.getColor()) && middle_card.getValue() == card.getValue());
+			            	Boolean cond2 = (middle_card.getColor().equals(card.getColor()) && middle_card.getValue() != card.getValue());
+			            	Boolean cond3 = (!middle_card.getColor().equals(card.getColor()) && middle_card.getValue() != card.getValue() &&  card.getColor().equals("BLACK"));
+			            	
+			            	if(cond1){
+			            		System.out.println("COND1 OK!!");
+			            	}
+			            	if(cond2) {
+			            		System.out.println("COND2 OK!!");
+			            	}
+			            	if(cond3) {
+			            		System.out.println("COND3 OK!!");
+			            	}
+			            	
+			            	if(cond1 || cond2 || cond3) {
+			            		cardView.setImage(null);
+				            	hbox_down.getChildren().remove(cardView);
+				            	playOnClick(index);
+				            	System.out.println("\nIndex: " + index + "\nCard Type: " + card.getType() + "\nCard Color: " + card.getColor() + "\nCard Value: " + card.getValue() + "\nCard Action: " + card.getAction());
+				            	updateView();
+			            	}
+			            	else {     	
+			            		System.out.println("YOU CANNOT PLAY THIS CARD !!");
+			            	}
 			            }
 			        });
 				}
