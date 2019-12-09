@@ -8,30 +8,30 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
+<BorderPane fx:id="background" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" styleClass="bodybg" stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
    <bottom>
-      <HBox fx:id="hbox_down" prefHeight="123.0" prefWidth="1200.0" BorderPane.alignment="CENTER" />
+      <HBox fx:id="hbox_down" prefHeight="250.0" prefWidth="1200.0" BorderPane.alignment="CENTER" />
    </bottom>
    <center>
       <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <ImageView fx:id="mid_card" fitHeight="150.0" fitWidth="200.0" layoutX="371.0" layoutY="174.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="mid_card" fitHeight="150.0" fitWidth="200.0" layoutX="289.0" layoutY="82.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
                <cursor>
                   <Cursor fx:constant="S_RESIZE" />
                </cursor>
             </ImageView>
-            <Button id="add_card_button" layoutX="681.0" layoutY="217.0" mnemonicParsing="false" onAction="#handleAddCardButtonClick" prefHeight="63.0" prefWidth="80.0" text="PLAY" />
-            <ImageView fx:id="draw_card" fitHeight="150.0" fitWidth="200.0" layoutX="95.0" layoutY="174.0" pickOnBounds="true" preserveRatio="true" />
+            <Button id="add_card_button" layoutX="588.0" layoutY="127.0" mnemonicParsing="false" onAction="#handleAddCardButtonClick" prefHeight="63.0" prefWidth="80.0" text="PLAY" />
+            <ImageView fx:id="draw_card" fitHeight="150.0" fitWidth="200.0" layoutX="116.0" layoutY="75.0" pickOnBounds="true" preserveRatio="true" />
          </children>
       </Pane>
    </center>
    <top>
-      <HBox fx:id="hbox_up" prefHeight="123.0" prefWidth="1200.0" BorderPane.alignment="CENTER" />
+      <HBox fx:id="hbox_up" prefHeight="250.0" prefWidth="1023.0" BorderPane.alignment="CENTER" />
    </top>
    <left>
-      <VBox fx:id="vbox_left" alignment="BASELINE_CENTER" prefHeight="200.0" prefWidth="123.0" BorderPane.alignment="CENTER" />
+      <VBox fx:id="vbox_left" alignment="BASELINE_CENTER" prefHeight="396.0" prefWidth="220.0" BorderPane.alignment="CENTER" />
    </left>
    <right>
-      <VBox fx:id="vbox_right" alignment="BASELINE_CENTER" prefHeight="200.0" prefWidth="123.0" BorderPane.alignment="CENTER" />
+      <VBox fx:id="vbox_right" alignment="BASELINE_CENTER" prefHeight="200.0" prefWidth="220.0" BorderPane.alignment="CENTER" />
    </right>
 </BorderPane>

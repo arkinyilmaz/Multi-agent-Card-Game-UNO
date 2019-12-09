@@ -58,11 +58,8 @@ public class Controller{
 		System.out.println("\nPlayer to start: " + game.getGameTurn());
 	}
 	
-	public void handleAddCardButtonClick() throws FileNotFoundException {
-		
+	public void handleAddCardButtonClick() throws FileNotFoundException {		
 		play();
-		updateView();
-		
 	}
 	
 	public void updateView() {
@@ -70,14 +67,7 @@ public class Controller{
 		hbox_up.getChildren().clear();
 		vbox_left.getChildren().clear();
 		vbox_right.getChildren().clear();
-		
-		/*ArrayList<UNO_Card> remaining_deck = game.getRemainingCards();
-		for(int i = 0; i < remaining_deck.size(); i++) {
-			ImageView view = new ImageView(back_image);
-			vbox_deck.getChildren().add(view);
-		}
-		vbox_deck.setSpacing(-109.5);*/
-		
+				
 		for(int i = 0; i < players.length; i++) {
 			updatePlayerIndex = i;
 			ArrayList<UNO_Card> p_hand = players[i].getHand();
@@ -86,8 +76,8 @@ public class Controller{
 				int index = j;
 				UNO_Card card = p_hand.get(j);
 				ImageView cardView = new ImageView();
-				cardView.setFitWidth(100);
-				cardView.setFitHeight(140);		
+				cardView.setFitWidth(85);
+				cardView.setFitHeight(125);		
 				cardView.setImage(card.getImage());
 				
 				//remove card from hand
@@ -97,15 +87,12 @@ public class Controller{
 			            public void handle(MouseEvent event) {
 			            	
 			            	UNO_Card middle_card = game.getPlayedCard();
-			            	System.out.println("\nCard Type: " + middle_card.getType() + "\nCard Color: " + middle_card.getColor());
-
-			            	ArrayList<UNO_Card> rp_hand = players[0].getHand();
+			            	System.out.println("\n\nCard Type: " + middle_card.getType() + "\nCard Color: " + middle_card.getColor());
 			            	
 			            	Boolean cond1 = (!middle_card.getColor().equals(card.getColor()) && middle_card.getValue() == card.getValue());
 			            	Boolean cond2 = (middle_card.getColor().equals(card.getColor()) && middle_card.getValue() != card.getValue());
 			            	Boolean cond3 = (!middle_card.getColor().equals(card.getColor()) && middle_card.getValue() != card.getValue() &&  card.getColor().equals("BLACK"));
 			            	Boolean cond4 = (middle_card.getColor().equals(card.getColor()) && middle_card.getValue() == card.getValue());
-
 			            	
 			            	if(cond1){
 			            		System.out.println("COND1 OK!!");
@@ -121,8 +108,6 @@ public class Controller{
 			            		cardView.setImage(null);
 				            	hbox_down.getChildren().remove(cardView);
 				            	playOnClick(index);
-				            	System.out.println("\nIndex: " + index + "\nCard Type: " + card.getType() + "\nCard Color: " + card.getColor() + "\nCard Value: " + card.getValue() + "\nCard Action: " + card.getAction());
-				            	updateView();
 			            	}
 			            	else {     	
 			            		System.out.println("YOU CANNOT PLAY THIS CARD !!");
@@ -154,9 +139,9 @@ public class Controller{
 				}
 				
 				//add cards starting from the middle
-				if(i % 2 == 0) {
+				if(i == 0) {
 					((HBox) playerContainer.get(i)).setSpacing(-50); //-30
-					((HBox) playerContainer.get(i)).setAlignment(Pos.CENTER);
+					((HBox) playerContainer.get(i)).setAlignment(Pos.TOP_CENTER);
 					playerContainer.get(i).getChildren().add(cardView);
 				}
 				else if(i == 1){
@@ -165,131 +150,106 @@ public class Controller{
 					cardView.setRotate(90);
 					playerContainer.get(i).getChildren().add(cardView);
 				}			
-				else {
+				else if(i == 3){
 					((VBox) playerContainer.get(i)).setSpacing(-90); //-65
 					((VBox) playerContainer.get(i)).setAlignment(Pos.CENTER_RIGHT);
 					cardView.setRotate(90);
 					playerContainer.get(i).getChildren().add(cardView);
 				}
+				else {
+					((HBox) playerContainer.get(i)).setSpacing(-50); //-30
+					((HBox) playerContainer.get(i)).setAlignment(Pos.BOTTOM_CENTER);
+					playerContainer.get(i).getChildren().add(cardView);
+				}
 			}
 		}
 		
-		Boolean[] check = new Boolean[players[0].getHand().size()];
-		Boolean check2 = true;
-		
-		//if there is no available card, draw card from deck
-		for(int k = 0; k < check.length; k++) {
-			UNO_Card c = players[0].getHand().get(k);
-        	UNO_Card middle_card = game.getPlayedCard();
+		if(game.getGameTurn() == 0) {
+			Boolean[] check = new Boolean[players[0].getHand().size()];
+			Boolean check2 = true;
+			
+			//if there is no available card, draw card from deck
+			for(int k = 0; k < check.length; k++) {
+				UNO_Card c = players[0].getHand().get(k);
+	        	UNO_Card middle_card = game.getPlayedCard();
 
-			Boolean cond1 = (!middle_card.getColor().equals(c.getColor()) && middle_card.getValue() == c.getValue());
-        	Boolean cond2 = (middle_card.getColor().equals(c.getColor()) && middle_card.getValue() != c.getValue());
-        	Boolean cond3 = (!middle_card.getColor().equals(c.getColor()) && middle_card.getValue() != c.getValue() &&  c.getColor().equals("BLACK"));
-        	Boolean cond4 = (middle_card.getColor().equals(c.getColor()) && middle_card.getValue() == c.getValue());
-        		
-			if(cond1 || cond2 || cond3 || cond4) 
-				check[k] = true;
-			else
-				check[k] = false;
-		}
-		
-		for(int k = 0; k < check.length; k++) {
-			if(check[k])
-				System.out.println(k + " is OKEY | ");
-		}
-		
-		for(int k = 0; k < check.length; k++) {
-			if(check[k]) {
-				check2 = false;
-				break;
+				Boolean cond1 = (!middle_card.getColor().equals(c.getColor()) && middle_card.getValue() == c.getValue());
+	        	Boolean cond2 = (middle_card.getColor().equals(c.getColor()) && middle_card.getValue() != c.getValue());
+	        	Boolean cond3 = (!middle_card.getColor().equals(c.getColor()) && middle_card.getValue() != c.getValue() &&  c.getColor().equals("BLACK"));
+	        	Boolean cond4 = (middle_card.getColor().equals(c.getColor()) && middle_card.getValue() == c.getValue());
+	        		
+				if(cond1 || cond2 || cond3 || cond4) 
+					check[k] = true;
+				else
+					check[k] = false;
+			}
+			
+			for(int k = 0; k < check.length; k++) {
+				if(check[k])
+					System.out.print(k + " is OKEY | ");
+			}
+			
+			for(int k = 0; k < check.length; k++) {
+				if(check[k]) {
+					check2 = false;
+					break;
+				}
+			}
+						
+			//check for all possible cards, create boolean array, if any dont add, otherwise add
+			if(check2) {
+				draw_card.setOnMouseClicked(new EventHandler<MouseEvent>(){
+		            @Override
+		            public void handle(MouseEvent event) {         	
+		            	if(game.getGameTurn() == 0) {
+			            	players[0].drawCard(game.getRemainingCards());
+			            	players[game.getGameTurn()].setTurn(false);
+			    			
+			    			game.setGameTurn((game.getGameTurn() + game.getGameDirection() + 4) % players.length);
+			    			players[game.getGameTurn()].setTurn(true);
+	
+			    			System.out.println("\nPlayer 1:" + players[0].isTurn() + "\nPlayer 2:" + players[1].isTurn() + "\nPlayer 3:" + players[2].isTurn() + "\nPlayer 4:" + players[3].isTurn());
+			    			updateView();
+		            	}
+		            }
+		        });			
 			}
 		}
-					
-		//check for all possible cards, create boolean array, if any dont add, otherwise add
-		if(check2) {
-			draw_card.setOnMouseClicked(new EventHandler<MouseEvent>(){
-	            @Override
-	            public void handle(MouseEvent event) {
-	            	players[0].drawCard(game.getRemainingCards());
-	            	players[game.getGameTurn()].setTurn(false);
-	    			
-	    			game.setGameTurn((game.getGameTurn() + game.getGameDirection() + 4) % players.length);
-	    			players[game.getGameTurn()].setTurn(true);
-
-	    			System.out.println("\nPlayer 1:" + players[0].isTurn() + "\nPlayer 2:" + players[1].isTurn() + "\nPlayer 3:" + players[2].isTurn() + "\nPlayer 4:" + players[3].isTurn());
-	            	updateView();
-	            }
-	        });		
-		}
+		
 		
 		UNO_Card playedCard = game.getPlayedCard();
 		mid_card.setImage(playedCard.getImage());
-		System.out.println(mid_card.getImage().getRequestedWidth());
 		centerImage(mid_card);
 	}
 	
 	//play function for bots
-	public void play() {
+	public void play() {	
+		while(!game.isGameEnded() && players[game.getGameTurn()].isBot()) {
+			
+				int turn = game.getGameTurn();
+				int direction = game.getGameDirection();
+				
+				game.playCard(players[turn]);		
+				game.setGameTurn((game.getGameTurn() + direction + 4) % players.length);
+				players[game.getGameTurn()].setTurn(true);
 	
-		if(!game.isGameEnded() && players[game.getGameTurn()].isBot()) {
-			int turn = game.getGameTurn();
-			int direction = game.getGameDirection();
-			
-			game.playCard(players[turn]);		
-			game.setGameTurn((game.getGameTurn() + direction + 4) % players.length);
-			players[game.getGameTurn()].setTurn(true);
-
-			System.out.println("\nPlayer 1:" + players[0].isTurn() + "\nPlayer 2:" + players[1].isTurn() + "\nPlayer 3:" + players[2].isTurn() + "\nPlayer 4:" + players[3].isTurn());
-			
-		}	
+				System.out.println("\nPlayer 1:" + players[0].isTurn() + "\nPlayer 2:" + players[1].isTurn() + "\nPlayer 3:" + players[2].isTurn() + "\nPlayer 4:" + players[3].isTurn());				
+				updateView();
+		}
 	}
 	
 	//play function for real player - add card check before playing
 	public void playOnClick(int index) {
 		if(!game.isGameEnded()) {
-			String text = "";
-			Boolean isPlayed = false;
-			int turn = game.getGameTurn();
 			int direction = game.getGameDirection();
-						
-			game.getPlayedCards().push(players[turn].getHand().remove(index));
-			isPlayed = true;
 			
-			if(game.getPlayedCard().getType() == 1)
-				text = "Played: " + game.getPlayedCard().getColor()  + "_" + game.getPlayedCard().getValue();
-			else {
-				text = "Played: " + game.getPlayedCard().getColor()  + "_" + game.getPlayedCard().getAction();
-			}
-			
-			System.out.println(text);
-			
-			//perform last played cards action
-			if(isPlayed) {
-				if(game.getPlayedCard().getAction().equals("REVERSE")) {
-					game.reverseGameDirection();
-				}
-				else if(game.getPlayedCard().getAction().equals("SKIP")) {
-					game.skipPlayer();
-				}
-				else if(game.getPlayedCard().getAction().equals("DRAW_2")) {
-					game.drawTwo();
-				}
-				else if(game.getPlayedCard().getAction().equals("DRAW_4")) {
-					game.drawFour();
-				}
-				else if(game.getPlayedCard().getAction().equals("COLOR_PICKER")) {
-					game.colorPicker();
-				}
-				else {}
-			}
-			
-			players[turn].setTurn(false);
+			game.playCard(index);
 			
 			game.setGameTurn((game.getGameTurn() + direction + 4) % players.length);
 			players[game.getGameTurn()].setTurn(true);
 
 			System.out.println("\nPlayer 1:" + players[0].isTurn() + "\nPlayer 2:" + players[1].isTurn() + "\nPlayer 3:" + players[2].isTurn() + "\nPlayer 4:" + players[3].isTurn());
-			
+			updateView();
 		}	
 	}
 	
@@ -327,7 +287,7 @@ public class Controller{
 		playerContainer.add(hbox_up);
 		playerContainer.add(vbox_left);
 		
-		String filename = "images/card_back.png";
+		String filename = "images/deck.png";
 		FileInputStream input = null;
 		try {
 			input = new FileInputStream(filename);
@@ -341,57 +301,19 @@ public class Controller{
 		centerImage(draw_card);
 		
 		updateView();
-		
-		
+		play();
 		
 		/*new Thread(() -> {
-			while(!game.isGameEnded() && play) {
-						
-				try {
-					Thread.sleep(250);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
-				int turn = game.getGameTurn();
-				int direction = game.getGameDirection();
-				
-				game.playCard(players[turn]);		
-				game.setGameTurn((game.getGameTurn() + direction + 4) % players.length);
-				
+			while(!game.isGameEnded()) {				
 				Platform.runLater(() -> {
-					UNO_Card c = game.getPlayedCard();
-					int card_type = c.getType();
-					String card_color = c.getColor();
-					int card_value = c.getValue();
-					String action = c.getAction();
-					String fileName = "";
 					
-					if(card_type == 1) {
-						fileName = "images/" + card_color.toLowerCase() + "_" + card_value + ".png";
+					if(game.getGameTurn() == 0) {
+						;
 					}
-					else if(card_type == 2){
-						fileName = "images/" + card_color.toLowerCase() + "_" + action.toLowerCase(Locale.ENGLISH) + ".png";
-					}
-					else {
-						fileName = "images/black_" + action.toLowerCase(Locale.ENGLISH) + ".png";
-					}
+					else
+						play();					
 					
-					FileInputStream input = null;
-					try {
-						input = new FileInputStream(fileName);
-					} catch (FileNotFoundException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-		
-					Image image = new Image(input);
-					mid_card.setImage(image);
-					
-					play = false;
-					
-				});	
+				});				
 			}
 		}).start();*/
 	}

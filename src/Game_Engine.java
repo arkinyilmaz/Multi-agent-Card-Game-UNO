@@ -39,7 +39,7 @@ public class Game_Engine {
 		
 		//spread cards to each player
 		dealer.spreadCards(players);
-		
+	
 		//print players' hands
 		for(int i = 0 ; i < players.length; i++) {
 			printPlayerHand(players[i]);
@@ -172,6 +172,47 @@ public class Game_Engine {
 		}
 	}
 	
+	//play function for real player
+	public void playCard(int index) {
+		
+		Boolean isPlayed = false;
+		String text = "";
+		
+		playedCards.push(players[0].getHand().remove(index));
+		isPlayed = true;
+		
+		if(getPlayedCard().getType() == 1)
+			text = "Played: " + getPlayedCard().getColor()  + "_" + getPlayedCard().getValue();
+		else {
+			text = "Played: " + getPlayedCard().getColor()  + "_" + getPlayedCard().getAction();
+		}
+		
+		System.out.println(text);
+		
+		//perform last played cards action
+		if(isPlayed) {
+			if(getPlayedCard().getAction().equals("REVERSE")) {
+				reverseGameDirection();
+			}
+			else if(getPlayedCard().getAction().equals("SKIP")) {
+				skipPlayer();
+			}
+			else if(getPlayedCard().getAction().equals("DRAW_2")) {
+				drawTwo();
+			}
+			else if(getPlayedCard().getAction().equals("DRAW_4")) {
+				drawFour();
+			}
+			else if(getPlayedCard().getAction().equals("COLOR_PICKER")) {
+				colorPicker();
+			}
+			else {}
+		}
+		
+		players[0].setTurn(false);		
+	}
+	
+	//play function for bots
 	public void playCard(Player p) {
 		//card in the middle
 		String lastPlayedCardColor = getPlayedCard().getColor();
