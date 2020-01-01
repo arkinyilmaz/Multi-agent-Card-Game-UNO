@@ -7,6 +7,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
 
 <BorderPane fx:id="background" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" styleClass="bodybg" stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
    <bottom>
@@ -22,6 +23,7 @@
             </ImageView>
             <Button id="add_card_button" layoutX="535.0" layoutY="38.0" mnemonicParsing="false" onAction="#handleAddCardButtonClick" prefHeight="63.0" prefWidth="80.0" text="PLAY" />
             <ImageView fx:id="draw_card" fitHeight="150.0" fitWidth="200.0" layoutX="113.0" layoutY="69.0" pickOnBounds="true" preserveRatio="true" />
+            <Rectangle fx:id="color_display" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="36.0" layoutX="361.0" layoutY="20.0" stroke="BLACK" strokeType="INSIDE" width="38.0" />
          </children>
       </Pane>
    </center>

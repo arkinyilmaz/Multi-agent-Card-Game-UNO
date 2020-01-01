@@ -23,7 +23,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Arc;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Modality;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
@@ -37,6 +39,7 @@ public class Controller{
 	public VBox vbox_right;
 	public ArrayList<Pane> playerContainer;
 	public ImageView draw_card;
+	public Rectangle color_display;
 	
 	public Button add_card_button;
 	public ImageView mid_card;
@@ -257,11 +260,30 @@ public class Controller{
 		UNO_Card playedCard = game.getPlayedCard();
 		mid_card.setImage(playedCard.getImage());
 		centerImage(mid_card);
+		
+		
+		String hex = "";
+		switch(playedCard.getColor()) {
+			case "RED":
+				hex = "#ff5555";
+				break;
+			case "YELLOW":
+				hex = "#ffaa00";
+				break;
+			case "GREEN":
+				hex = "#53a653";
+				break;
+			case "BLUE":
+				hex = "#5555fd";
+				break;
+		}
+		color_display.setFill(Color.web(hex));
+		
 	}
 	
 	//play function for bots
 	public void play() {	
-		while(!game.isGameEnded() && players[game.getGameTurn()].isBot()) {
+		if(!game.isGameEnded() && players[game.getGameTurn()].isBot()) {
 			
 				int turn = game.getGameTurn();
 				int direction = game.getGameDirection();
@@ -337,7 +359,7 @@ public class Controller{
 		centerImage(draw_card);
 		
 		updateView();
-		play();
+		//play();
 		
 		/*new Thread(() -> {
 			while(!game.isGameEnded()) {				

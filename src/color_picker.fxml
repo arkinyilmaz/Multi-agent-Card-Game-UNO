@@ -3,12 +3,11 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Arc?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="232.0" prefWidth="318.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Arc fx:id="yellow_picker" fill="#ffff21" layoutX="159.0" layoutY="116.0" length="90.0" radiusX="100.0" radiusY="100.0" stroke="BLACK" strokeType="INSIDE" type="ROUND" />
-      <Arc fx:id="red_picker"  fill="#ff3a1f" layoutX="159.0" layoutY="116.0" length="90.0" radiusX="100.0" radiusY="100.0" startAngle="90.0" stroke="BLACK" strokeType="INSIDE" type="ROUND" />
-      <Arc fx:id="green_picker"  fill="#4ed22a" layoutX="159.0" layoutY="116.0" length="90.0" radiusX="100.0" radiusY="100.0" startAngle="180.0" stroke="BLACK" strokeType="INSIDE" type="ROUND" />
-      <Arc fx:id="blue_picker"  fill="#218aff" layoutX="159.0" layoutY="116.0" length="90.0" radiusX="100.0" radiusY="100.0" startAngle="270.0" stroke="BLACK" strokeType="INSIDE" type="ROUND" />
+      <Arc fx:id="yellow_picker" fill="#ffaa00" layoutX="159.0" layoutY="116.0" length="90.0" radiusX="100.0" radiusY="100.0" stroke="BLACK" strokeType="INSIDE" type="ROUND" />
+      <Arc fx:id="red_picker" fill="#ff5555" layoutX="159.0" layoutY="116.0" length="90.0" radiusX="100.0" radiusY="100.0" startAngle="90.0" stroke="BLACK" strokeType="INSIDE" type="ROUND" />
+      <Arc fx:id="green_picker" fill="#53a653" layoutX="159.0" layoutY="116.0" length="90.0" radiusX="100.0" radiusY="100.0" startAngle="180.0" stroke="BLACK" strokeType="INSIDE" type="ROUND" />
+      <Arc fx:id="blue_picker" fill="#5555fd" layoutX="159.0" layoutY="116.0" length="90.0" radiusX="100.0" radiusY="100.0" startAngle="270.0" stroke="BLACK" strokeType="INSIDE" type="ROUND" />
    </children>
 </AnchorPane>
