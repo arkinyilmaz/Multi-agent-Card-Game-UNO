@@ -14,7 +14,11 @@ public class Main extends Application{
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		// TODO Auto-generated method stub
-		Parent root = FXMLLoader.load(getClass().getResource("uno_game.fxml"));
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("uno_game.fxml"));
+		Parent root = (Parent)fxmlLoader.load();
+		
+	    ((Controller) fxmlLoader.getController()).setPrimaryStage(primaryStage);
+
 		Scene scene = new Scene(root);
 		primaryStage.setTitle("xXxUNOMASTERSxXx");
 		primaryStage.setScene(scene);

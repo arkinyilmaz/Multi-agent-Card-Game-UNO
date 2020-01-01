@@ -25,16 +25,13 @@ public class Card_Deck {
 		createDeck();
 	}
 	
-	/*if(card_type == 1) {
-		fileName = "images/" + card_color.toLowerCase() + "_" + card_value + ".png";
-	}
-	else {
-		fileName = "images/" + card_color.toLowerCase() + "_" + action.toLowerCase(Locale.ENGLISH) + ".png";
-	}*/
-	
+	//creates game deck (4 + 72 + 24 + 8 = 108 cards in total) 
 	public void createDeck(){
 		
-		//add 0's to deck
+		/* add 0's to deck
+		 * 4 different zero's in deck (1 for each color) 
+		 * point is 0
+		 */
 		for(String color : NUMBER_CARD_COLORS) {
 			UNO_Card card = new Number_Card(color, 0);
 			card.setPoint(0);
@@ -49,13 +46,16 @@ public class Card_Deck {
 			deck.add(card);
 		}
 		
-		//add remaining numbers twice
-		for(int i = 1; i < 10; i++) {
+		/* add remaining number cards (1 to 9) 
+		 * 72 different number's in deck (2 for each color) 
+		 * point is equal to (number) on itself
+		 */
+		for(int number = 1; number < 10; number++) {
 			for(String color: NUMBER_CARD_COLORS) {
 				for(int j = 0; j < 2; j++) {
-					UNO_Card card = new Number_Card(color, i);
-					card.setPoint(i);			
-					filename = "images/" + color.toLowerCase() + "_" + i + ".png"; 
+					UNO_Card card = new Number_Card(color, number);
+					card.setPoint(number);			
+					filename = "images/" + color.toLowerCase() + "_" + number + ".png"; 
 					try {
 						input = new FileInputStream(filename);
 					} catch (FileNotFoundException e) {
@@ -68,12 +68,15 @@ public class Card_Deck {
 			}
 		}
 		
-		//add action cards
+		/* add action cards (reverse, skip, draw_2)
+		 * 24 different action's in deck (2 for each color)
+		 * point is equal to 20  
+		 */
 		int j = -1;
 		for(String action: ACTIONS) {
 			for(String color: NUMBER_CARD_COLORS) {
 				for(int i = 0; i < 2; i++) {
-					UNO_Card card = new Action_Card(color, action, j);
+					UNO_Card card = new Action_Card(color, j, action);
 					card.setPoint(ACTION_CARD_POINTS);
 					filename = "images/" + color.toLowerCase() + "_" + action.toLowerCase(Locale.ENGLISH) + ".png"; 
 					try {
@@ -89,11 +92,14 @@ public class Card_Deck {
 			j--;
 		}
 		
-		//add wild cards
+		/* add wild cards (color picker, draw_4)
+		 * 8 different wild's in deck (4 for each action)
+		 * point is equal to 50
+		 */
 		j = -15;
 		for(String action: WILD_ACTIONS) {
 			for(int i = 0; i < 4; i++) {
-				UNO_Card card = new Wild_Card(action, -15);
+				UNO_Card card = new Wild_Card(-15,action);
 				card.setPoint(WILD_CARD_POINTS);
 				filename = "images/black_" + action.toLowerCase(Locale.ENGLISH) + ".png"; 
 				try {

@@ -15,26 +15,7 @@ public class Player {
 		this.isBot = isBot;
 	}
 	
-	public String getName() {
-		return name;
-	}
-	
-	public Boolean isBot() {
-		return isBot;
-	}
-	
-	public Boolean isTurn() {
-		return turn;
-	}
-	
-	public void setTurn(Boolean b) {
-		turn = b;
-	}
-	
-	public ArrayList<UNO_Card> getHand() {
-		return hand;
-	}
-	
+	// get the number of each colors in hand
 	public int[] getColorsInHand(){
 		
 		int[] colors_in_hand = {0,0,0,0};
@@ -53,6 +34,7 @@ public class Player {
 		return colors_in_hand;
 	}
 	
+	// get the total hand points for the player
 	public int getHandPoints() {
 		int points = 0;
 		for(int i = 0; i < hand.size(); i++) {
@@ -61,8 +43,29 @@ public class Player {
 		return points;
 	}
 	
+	// draw 1 card from the pile to hand
 	public void drawCard(ArrayList<UNO_Card> remainingDeck) {
 		hand.add(remainingDeck.get(0));
 		remainingDeck.remove(0);
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	public Boolean isBot() {
+		return isBot;
+	}
+	
+	public Boolean isTurn() {
+		return turn;
+	}
+	
+	public void setTurn(Boolean b) {
+		turn = b;
+	}
+	
+	public ArrayList<UNO_Card> getHand() {
+		return hand;
 	}
 }

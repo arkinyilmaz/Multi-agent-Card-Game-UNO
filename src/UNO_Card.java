@@ -3,8 +3,7 @@ import javafx.scene.image.Image;
 /*
  * if type = 1, then number card
  * if type = 2, then action card
- * if type = 3, then wild card
- * 
+ * if type = 3, then wild card 
  */
 public class UNO_Card {
 

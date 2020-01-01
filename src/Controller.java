@@ -1,5 +1,6 @@
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -8,16 +9,24 @@ import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Bounds;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Arc;
+import javafx.stage.Modality;
+import javafx.stage.Popup;
+import javafx.stage.Stage;
 
 public class Controller{
 	
@@ -34,10 +43,13 @@ public class Controller{
 	public Boolean play = true;
 	public Image back_image;
 	
+	private Stage primaryStage;
+	
 	public int updatePlayerIndex = -1;
 	Player p1, p2, p3, p4;
 	Player[] players;
 	Game_Engine game;
+	Popup popup;
 		
 	public Controller() {
 		p1 = new Player("Player 1", false);
@@ -67,7 +79,11 @@ public class Controller{
 		hbox_up.getChildren().clear();
 		vbox_left.getChildren().clear();
 		vbox_right.getChildren().clear();
-				
+		
+		hbox_up.setDisable(true);
+		vbox_left.setDisable(true);	
+		vbox_right.setDisable(true);
+		
 		for(int i = 0; i < players.length; i++) {
 			updatePlayerIndex = i;
 			ArrayList<UNO_Card> p_hand = players[i].getHand();
@@ -108,6 +124,28 @@ public class Controller{
 			            		cardView.setImage(null);
 				            	hbox_down.getChildren().remove(cardView);
 				            	playOnClick(index);
+				            	
+				            	popup = null;
+				            	
+				            	//if it is wild card
+				            	if(game.getPlayedCard().getType() == 3) {
+				            		try {
+				            			popup = new Popup();
+				            			ColorPicker_Controller controller = new ColorPicker_Controller(game,popup);
+				            			FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("color_picker.fxml"));
+				            			fxmlloader.setController(controller);
+				            			
+				            			popup.getContent().add((Parent)fxmlloader.load());
+				            		} 
+				            		catch (IOException e) {
+										// TODO Auto-generated catch block
+										e.printStackTrace();
+									}
+				            				
+				            		popup.setX(600);
+				            		popup.setY(300);
+				            		popup.show(primaryStage);	
+				            	}
 			            	}
 			            	else {     	
 			            		System.out.println("YOU CANNOT PLAY THIS CARD !!");
@@ -216,7 +254,6 @@ public class Controller{
 			}
 		}
 		
-		
 		UNO_Card playedCard = game.getPlayedCard();
 		mid_card.setImage(playedCard.getImage());
 		centerImage(mid_card);
@@ -240,7 +277,7 @@ public class Controller{
 	
 	//play function for real player - add card check before playing
 	public void playOnClick(int index) {
-		if(!game.isGameEnded()) {
+		if(!game.isGameEnded() && !players[game.getGameTurn()].isBot()) {
 			int direction = game.getGameDirection();
 			
 			game.playCard(index);
@@ -275,7 +312,6 @@ public class Controller{
 
             view.setX((view.getFitWidth() - w) / 2);
             view.setY((view.getFitHeight() - h) / 2);
-
         }
     }
 
@@ -306,15 +342,13 @@ public class Controller{
 		/*new Thread(() -> {
 			while(!game.isGameEnded()) {				
 				Platform.runLater(() -> {
-					
-					if(game.getGameTurn() == 0) {
-						;
-					}
-					else
-						play();					
-					
+									
 				});				
 			}
 		}).start();*/
+	}
+	
+	public void setPrimaryStage(Stage primaryStage) {
+		this.primaryStage = primaryStage;
 	}
 }

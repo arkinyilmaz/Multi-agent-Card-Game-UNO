@@ -74,33 +74,12 @@ public class Game_Engine {
 		return false;
 	}
 	
-	public Stack<UNO_Card> getPlayedCards(){
-		return playedCards;
-	}
-	
-	public int getGameTurn() {
-		return gameTurn;
-	}
-	
-	public int getGameDirection() {
-		return gameDirection;
-	}
-	
-	public ArrayList<UNO_Card> getRemainingCards(){
-		return remainingCards;
-	}
-	
-	public void setGameTurn(int gameTurn) {
-		this.gameTurn = gameTurn;
-	}
-	
 	//perform action -- skip player
 	public void skipPlayer() {
 		gameTurn = (gameTurn + gameDirection + 4) % players.length;	
-		//players[gameTurn].setTurn(true);
 	}
 	
-	//perform action -- reverseGameDirection
+	//perform action -- reverse game direction
 	public void reverseGameDirection() {
 		if(gameDirection == 1)
 			gameDirection = -1;
@@ -163,6 +142,26 @@ public class Game_Engine {
 		return playedCards.peek();
 	}
 	
+	public Stack<UNO_Card> getPlayedCards(){
+		return playedCards;
+	}
+	
+	public int getGameTurn() {
+		return gameTurn;
+	}
+	
+	public int getGameDirection() {
+		return gameDirection;
+	}
+	
+	public ArrayList<UNO_Card> getRemainingCards(){
+		return remainingCards;
+	}
+	
+	public void setGameTurn(int gameTurn) {
+		this.gameTurn = gameTurn;
+	}
+	
 	public void printPlayerHand(Player p) {
 		System.out.println("\nPLAYER: " + p.getName());
 		ArrayList<UNO_Card> p_hand = p.getHand();
@@ -172,14 +171,31 @@ public class Game_Engine {
 		}
 	}
 	
+	public void performCardAction(UNO_Card card) {
+		if(card.getAction().equals("REVERSE")) {
+			reverseGameDirection();
+		}
+		else if(card.getAction().equals("SKIP")) {
+			skipPlayer();
+		}
+		else if(card.getAction().equals("DRAW_2")) {
+			drawTwo();
+		}
+		else if(card.getAction().equals("DRAW_4")) {
+			drawFour();
+		}
+		else if(card.getAction().equals("COLOR_PICKER")) {
+			colorPicker();
+		}
+		else {}
+	}
+	
 	//play function for real player
 	public void playCard(int index) {
 		
-		Boolean isPlayed = false;
 		String text = "";
 		
 		playedCards.push(players[0].getHand().remove(index));
-		isPlayed = true;
 		
 		if(getPlayedCard().getType() == 1)
 			text = "Played: " + getPlayedCard().getColor()  + "_" + getPlayedCard().getValue();
@@ -190,25 +206,7 @@ public class Game_Engine {
 		System.out.println(text);
 		
 		//perform last played cards action
-		if(isPlayed) {
-			if(getPlayedCard().getAction().equals("REVERSE")) {
-				reverseGameDirection();
-			}
-			else if(getPlayedCard().getAction().equals("SKIP")) {
-				skipPlayer();
-			}
-			else if(getPlayedCard().getAction().equals("DRAW_2")) {
-				drawTwo();
-			}
-			else if(getPlayedCard().getAction().equals("DRAW_4")) {
-				drawFour();
-			}
-			else if(getPlayedCard().getAction().equals("COLOR_PICKER")) {
-				colorPicker();
-			}
-			else {}
-		}
-		
+		performCardAction(getPlayedCard());
 		players[0].setTurn(false);		
 	}
 	
@@ -331,22 +329,7 @@ public class Game_Engine {
 		
 		//perform last played cards action
 		if(isPlayed) {
-			if(getPlayedCard().getAction().equals("REVERSE")) {
-				reverseGameDirection();
-			}
-			else if(getPlayedCard().getAction().equals("SKIP")) {
-				skipPlayer();
-			}
-			else if(getPlayedCard().getAction().equals("DRAW_2")) {
-				drawTwo();
-			}
-			else if(getPlayedCard().getAction().equals("DRAW_4")) {
-				drawFour();
-			}
-			else if(getPlayedCard().getAction().equals("COLOR_PICKER")) {
-				colorPicker();
-			}
-			else {}
+			performCardAction(getPlayedCard());
 		}
 		
 		p.setTurn(false);
