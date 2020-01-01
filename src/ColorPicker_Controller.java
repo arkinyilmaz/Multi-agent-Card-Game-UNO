@@ -1,7 +1,9 @@
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Arc;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Popup;
 
 public class ColorPicker_Controller {
@@ -12,12 +14,12 @@ public class ColorPicker_Controller {
 	
 	private Game_Engine game;
 	private Popup popup;
+	private Rectangle color_display;
 	
-	public ColorPicker_Controller(Game_Engine game, Popup popup) {
+	public ColorPicker_Controller(Game_Engine game, Popup popup, Rectangle color_display) {
 		this.game = game;
-		this.popup = popup;
-		
-		System.out.print("hiii");
+		this.popup = popup;	
+		this.color_display = color_display;
 	}
 		
 	@FXML
@@ -27,6 +29,7 @@ public class ColorPicker_Controller {
 		          public void handle(MouseEvent me) {
 		            popup.hide();
 		            game.getPlayedCard().setColor("YELLOW");
+		    		color_display.setFill(Color.web("#ffaa00"));
 		          }
 		        });
 		
@@ -35,22 +38,25 @@ public class ColorPicker_Controller {
 		          public void handle(MouseEvent me) {
 		        	popup.hide();
 		            game.getPlayedCard().setColor("RED");
+		    		color_display.setFill(Color.web("#ff5555"));
 		          }
 		        });
 		
 		green_picker.addEventHandler(MouseEvent.MOUSE_PRESSED,
 		        new EventHandler<MouseEvent>() {
 		          public void handle(MouseEvent me) {
-			            popup.hide();
-			            game.getPlayedCard().setColor("GREEN");
+		            popup.hide();
+		            game.getPlayedCard().setColor("GREEN");
+		    		color_display.setFill(Color.web("#53a653"));
 		          }
 		        });
 		
 		blue_picker.addEventHandler(MouseEvent.MOUSE_PRESSED,
 		        new EventHandler<MouseEvent>() {
 		          public void handle(MouseEvent me) {
-			            popup.hide();
-			            game.getPlayedCard().setColor("BLUE");
+		            popup.hide();
+		            game.getPlayedCard().setColor("BLUE");
+		    		color_display.setFill(Color.web("#5555fd"));
 		          }
 		        });
 	}

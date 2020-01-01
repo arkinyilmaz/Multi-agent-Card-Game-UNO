@@ -22,7 +22,7 @@
                </cursor>
             </ImageView>
             <Button id="add_card_button" layoutX="535.0" layoutY="38.0" mnemonicParsing="false" onAction="#handleAddCardButtonClick" prefHeight="63.0" prefWidth="80.0" text="PLAY" />
-            <ImageView fx:id="draw_card" fitHeight="150.0" fitWidth="200.0" layoutX="113.0" layoutY="69.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="draw_card" fitHeight="150.0" fitWidth="200.0" layoutX="113.0" layoutY="69.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" />
             <Rectangle fx:id="color_display" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="36.0" layoutX="361.0" layoutY="20.0" stroke="BLACK" strokeType="INSIDE" width="38.0" />
          </children>
       </Pane>

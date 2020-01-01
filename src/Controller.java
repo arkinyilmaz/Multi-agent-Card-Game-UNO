@@ -82,11 +82,7 @@ public class Controller{
 		hbox_up.getChildren().clear();
 		vbox_left.getChildren().clear();
 		vbox_right.getChildren().clear();
-		
-		hbox_up.setDisable(true);
-		vbox_left.setDisable(true);	
-		vbox_right.setDisable(true);
-		
+			
 		for(int i = 0; i < players.length; i++) {
 			updatePlayerIndex = i;
 			ArrayList<UNO_Card> p_hand = players[i].getHand();
@@ -134,7 +130,7 @@ public class Controller{
 				            	if(game.getPlayedCard().getType() == 3) {
 				            		try {
 				            			popup = new Popup();
-				            			ColorPicker_Controller controller = new ColorPicker_Controller(game,popup);
+				            			ColorPicker_Controller controller = new ColorPicker_Controller(game,popup,color_display);
 				            			FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("color_picker.fxml"));
 				            			fxmlloader.setController(controller);
 				            			
@@ -275,7 +271,7 @@ public class Controller{
 				break;
 			case "BLUE":
 				hex = "#5555fd";
-				break;
+				break;	
 		}
 		color_display.setFill(Color.web(hex));
 		
@@ -344,6 +340,10 @@ public class Controller{
 		playerContainer.add(vbox_right);
 		playerContainer.add(hbox_up);
 		playerContainer.add(vbox_left);
+		
+		hbox_up.setDisable(true);
+		vbox_left.setDisable(true);	
+		vbox_right.setDisable(true);
 		
 		String filename = "images/deck.png";
 		FileInputStream input = null;
