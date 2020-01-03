@@ -40,6 +40,8 @@ public class Controller{
 	public ArrayList<Pane> playerContainer;
 	public ImageView draw_card;
 	public Rectangle color_display;
+	public ImageView game_direction;
+	public ImageView game_turn;
 	
 	public Button add_card_button;
 	public ImageView mid_card;
@@ -82,7 +84,29 @@ public class Controller{
 		hbox_up.getChildren().clear();
 		vbox_left.getChildren().clear();
 		vbox_right.getChildren().clear();
-			
+		
+		//update game turn indicator
+		if(game.getGameTurn() == 0) {
+			game_turn.setLayoutX(364);
+			game_turn.setLayoutY(219);
+			game_turn.setRotate(0);
+		}
+		else if(game.getGameTurn() == 1) {
+			game_turn.setLayoutX(434);
+			game_turn.setLayoutY(131);
+			game_turn.setRotate(270);
+		}
+		else if(game.getGameTurn() == 2) {
+			game_turn.setLayoutX(364);
+			game_turn.setLayoutY(32);
+			game_turn.setRotate(180);
+		}
+		else {
+			game_turn.setLayoutX(295);
+			game_turn.setLayoutY(131);
+			game_turn.setRotate(90);
+		}	
+		
 		for(int i = 0; i < players.length; i++) {
 			updatePlayerIndex = i;
 			ArrayList<UNO_Card> p_hand = players[i].getHand();
@@ -275,6 +299,11 @@ public class Controller{
 		}
 		color_display.setFill(Color.web(hex));
 		
+		//game direction
+		if(game.getGameDirection() == 1)
+			game_direction.setScaleY(1);
+		else
+			game_direction.setScaleY(-1);	
 	}
 	
 	//play function for bots
