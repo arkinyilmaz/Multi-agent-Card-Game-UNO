@@ -74,6 +74,13 @@ public class Game_Engine {
 		return false;
 	}
 	
+	//recreate the pile if there is no card left
+	public void reCreateDeck() {
+		Collections.shuffle(playedCards);
+		while(!playedCards.isEmpty())
+			remainingCards.add(playedCards.pop());
+	}
+	
 	//perform action -- skip player
 	public void skipPlayer() {
 		gameTurn = (gameTurn + gameDirection + 4) % players.length;	

@@ -16,6 +16,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -42,6 +43,7 @@ public class Controller{
 	public Rectangle color_display;
 	public ImageView game_direction;
 	public ImageView game_turn;
+	public Label card_left_label;
 	
 	public Button add_card_button;
 	public ImageView mid_card;
@@ -105,7 +107,11 @@ public class Controller{
 			game_turn.setLayoutX(295);
 			game_turn.setLayoutY(131);
 			game_turn.setRotate(90);
-		}	
+		}
+		
+		card_left_label.setText("Card Left: " + game.getRemainingCards().size());
+		if(game.getRemainingCards().size() == 0)
+			game.reCreateDeck();
 		
 		for(int i = 0; i < players.length; i++) {
 			updatePlayerIndex = i;

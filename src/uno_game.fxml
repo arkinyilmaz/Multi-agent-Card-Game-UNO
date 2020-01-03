@@ -2,6 +2,7 @@
 
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
@@ -9,6 +10,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
 
 <BorderPane fx:id="background" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" styleClass="bodybg" stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
    <bottom>
@@ -35,6 +37,11 @@
             <Button id="add_card_button" layoutX="560.0" layoutY="199.0" mnemonicParsing="false" onAction="#handleAddCardButtonClick" prefHeight="36.0" prefWidth="71.0" text="PLAY" />
             <ImageView fx:id="draw_card" fitHeight="150.0" fitWidth="114.0" layoutX="116.0" layoutY="69.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" />
             <Rectangle fx:id="color_display" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="40.0" layoutX="561.0" layoutY="37.0" stroke="BLACK" strokeType="INSIDE" width="68.0" />
+            <Label fx:id="card_left_label" layoutX="109.0" layoutY="48.0" prefHeight="23.0" prefWidth="123.0" text="Card Left:" textFill="WHITE">
+               <font>
+                  <Font name="Verdana Bold" size="16.0" />
+               </font>
+            </Label>
          </children>
       </Pane>
    </center>
