@@ -17,6 +17,10 @@ public class Game_Engine {
 	public Game_Engine(Player[] players) {
 		dealer = new Dealer();
 		this.players = players;
+		
+		for(int i = 0; i < players.length; i++)
+			players[i].getHand().clear();
+		
 		remainingCards = dealer.getRemainingDeck();
 		playedCards = new Stack<UNO_Card>();
 		gameDirection = 1;
@@ -61,12 +65,25 @@ public class Game_Engine {
 		//choose the starting player
 		players[gameTurn].setTurn(true);
 	}
+
+	public Player getWinner() {
+		Player winner = null;
+		
+		for(int i = 0; i < players.length; i++) {
+			if(players[i].getHand().size() == 0) {
+				winner = players[i];
+				break;
+			}
+		}
+		
+		return winner;
+	}
 	
 	//check if game is ended or not
 	public Boolean isGameEnded() {
 		for(int i = 0; i < players.length; i++) {
 			if(players[i].getHand().size() == 0) {
-				System.out.println("\n" + players[i].getName() + " wins!!!!!");
+				//System.out.println("\n" + players[i].getName() + " wins!!!!!");
 				return true;
 			}
 		}

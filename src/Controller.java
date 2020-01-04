@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import javafx.application.Platform;
@@ -15,7 +16,10 @@ import javafx.geometry.Bounds;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -82,6 +86,7 @@ public class Controller{
 	}
 	
 	public void updateView() {
+			
 		hbox_down.getChildren().clear();
 		hbox_up.getChildren().clear();
 		vbox_left.getChildren().clear();
@@ -310,6 +315,24 @@ public class Controller{
 			game_direction.setScaleY(1);
 		else
 			game_direction.setScaleY(-1);	
+		
+		if(game.isGameEnded()){
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("Confirmation Dialog");
+			alert.setHeaderText(game.getWinner().getName() + " wins the game!");
+			alert.setContentText("Do you want to play again?");
+			
+			Optional<ButtonType> result = alert.showAndWait();
+			if (result.get() == ButtonType.OK){
+			    // ... user chose OK
+				game = new Game_Engine(players);
+				game.start();
+				updateView();
+			} else {
+				Platform.exit();
+			    // ... user chose CANCEL or closed the dialog
+			}
+		}
 	}
 	
 	//play function for bots
