@@ -214,12 +214,12 @@ public class Game_Engine {
 		else {}
 	}
 	
-	//play function for real player
-	public void playCard(int index) {
+	//play function for real player - bu function'ý botlara ekle code repetitiondan kurtul!!!
+	public void playCardAtIndex(Player p, int index) {
 		
 		String text = "";
 		
-		playedCards.push(players[0].getHand().remove(index));
+		playedCards.push(p.getHand().remove(index));
 		
 		if(getPlayedCard().getType() == 1)
 			text = "Played: " + getPlayedCard().getColor()  + "_" + getPlayedCard().getValue();
@@ -231,7 +231,7 @@ public class Game_Engine {
 		
 		//perform last played cards action
 		performCardAction(getPlayedCard());
-		players[0].setTurn(false);		
+		p.setTurn(false);		
 	}
 	
 	//play function for bots
@@ -317,45 +317,22 @@ public class Game_Engine {
 		 *if there is more than 1 card -> play the card with biggest point
 		 */
 		String text = "";
-		Boolean isPlayed = false;
 		if(max_nm_locations.size() == 0) {
 			p.drawCard(remainingCards);
 			text = "Played: " + p.getName() + " has no possible moves. Draw card." ;
+			System.out.println(text);
+			p.setTurn(false);
 		}
 		else if(max_nm_locations.size() == 1) {
-			playedCardLocation = max_nm_locations.get(0);
-			playedCards.push(p.getHand().remove(playedCardLocation));
-			isPlayed = true;
-			
-			if(getPlayedCard().getType() == 1)
-				text = "Played: " + getPlayedCard().getColor()  + "_" + getPlayedCard().getValue();
-			else {
-				text = "Played: " + getPlayedCard().getColor()  + "_" + getPlayedCard().getAction();
-			}
+			playedCardLocation = max_nm_locations.get(0);		
+			playCardAtIndex(p, playedCardLocation);
 		}
 		else {
 			int min_point = Collections.min(remaining_hp);
 			int min_point_index = remaining_hp.indexOf(min_point);
 			
 			playedCardLocation = max_nm_locations.get(min_point_index);
-			playedCards.push(p.getHand().remove(playedCardLocation));
-			isPlayed = true;
-			
-
-			if(getPlayedCard().getType() == 1)
-				text = "Played: " + getPlayedCard().getColor()  + "_" + getPlayedCard().getValue();
-			else {
-				text = "Played: " + getPlayedCard().getColor()  + "_" + getPlayedCard().getAction();
-			}
-		}
-		
-		System.out.println(text);
-		
-		//perform last played cards action
-		if(isPlayed) {
-			performCardAction(getPlayedCard());
-		}
-		
-		p.setTurn(false);
+			playCardAtIndex(p, playedCardLocation);
+		}		
 	}
 }

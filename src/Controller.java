@@ -1,18 +1,13 @@
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Locale;
 import java.util.Optional;
-import java.util.ResourceBundle;
 
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.geometry.Bounds;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -24,14 +19,11 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Arc;
 import javafx.scene.shape.Rectangle;
-import javafx.stage.Modality;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
 
@@ -42,20 +34,20 @@ public class Controller{
 	public HBox hbox_up;
 	public VBox vbox_left;
 	public VBox vbox_right;
-	public ArrayList<Pane> playerContainer;
-	public ImageView draw_card;
 	public Rectangle color_display;
-	public ImageView game_direction;
-	public ImageView game_turn;
 	public Label card_left_label;
 	
-	public Button add_card_button;
+	public ImageView draw_card;
+	public ImageView game_direction;
+	public ImageView game_turn;
 	public ImageView mid_card;
-	public Boolean play = true;
 	public Image back_image;
+	public Button add_card_button;
 	
+	public ArrayList<Pane> playerContainer;
 	private Stage primaryStage;
 	
+	public Boolean play = true;
 	public int updatePlayerIndex = -1;
 	Player p1, p2, p3, p4;
 	Player[] players;
@@ -316,6 +308,7 @@ public class Controller{
 		else
 			game_direction.setScaleY(-1);	
 		
+		//restart game dialog
 		if(game.isGameEnded()){
 			Alert alert = new Alert(AlertType.CONFIRMATION);
 			alert.setTitle("Confirmation Dialog");
@@ -356,7 +349,7 @@ public class Controller{
 		if(!game.isGameEnded() && !players[game.getGameTurn()].isBot()) {
 			int direction = game.getGameDirection();
 			
-			game.playCard(index);
+			game.playCardAtIndex(players[0],index);
 			
 			game.setGameTurn((game.getGameTurn() + direction + 4) % players.length);
 			players[game.getGameTurn()].setTurn(true);
@@ -417,7 +410,6 @@ public class Controller{
 		centerImage(draw_card);
 		
 		updateView();
-		//play();
 		
 		/*new Thread(() -> {
 			while(!game.isGameEnded()) {				
