@@ -75,7 +75,6 @@ public class Game_Engine {
 				break;
 			}
 		}
-		
 		return winner;
 	}
 	
@@ -214,11 +213,10 @@ public class Game_Engine {
 		else {}
 	}
 	
-	//play function for real player - bu function'ý botlara ekle code repetitiondan kurtul!!!
+	//play function for real player
 	public void playCardAtIndex(Player p, int index) {
 		
-		String text = "";
-		
+		String text = "";		
 		playedCards.push(p.getHand().remove(index));
 		
 		if(getPlayedCard().getType() == 1)
@@ -317,16 +315,19 @@ public class Game_Engine {
 		 *if there is more than 1 card -> play the card with biggest point
 		 */
 		String text = "";
+		//No possible card to play, so draw card
 		if(max_nm_locations.size() == 0) {
 			p.drawCard(remainingCards);
 			text = "Played: " + p.getName() + " has no possible moves. Draw card." ;
 			System.out.println(text);
 			p.setTurn(false);
 		}
+		//Only one possible card to play, play it
 		else if(max_nm_locations.size() == 1) {
 			playedCardLocation = max_nm_locations.get(0);		
 			playCardAtIndex(p, playedCardLocation);
 		}
+		//There is more possibilities, play with the biggest point
 		else {
 			int min_point = Collections.min(remaining_hp);
 			int min_point_index = remaining_hp.indexOf(min_point);
